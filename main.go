@@ -3,31 +3,34 @@ package main
 import (
 	"fmt"
 
-	strategy "github.com/amr-ahmed/Design-Patterns/patterns/strategy/ducks"
+	"github.com/amr-ahmed/Design-Patterns/patterns/observer/observers"
+	"github.com/amr-ahmed/Design-Patterns/patterns/observer/subjects"
 )
 
 func main() {
 
-	cityDuck := strategy.GetNewDuck(strategy.GetNewCityDuck(), strategy.GetNewCityDuck(), strategy.GetNewCityDuck(), strategy.GetNewCityDuck())
-	fmt.Println("City Duck...")
-	fmt.Println(cityDuck.Fly())
-	fmt.Println(cityDuck.Eat())
-	fmt.Println(cityDuck.Move())
-	fmt.Println(cityDuck.Quack())
-	fmt.Println()
+	station := subjects.GenerateNewWeatherStation()
+	phone := observers.GetNewPhoneDisplay(station)
+	window := observers.GetNewWindowDisplay(station)
 
-	rubberDuck := strategy.GetNewDuck(strategy.GetNewRubberDuck(), strategy.GetNewRubberDuck(), strategy.GetNewRubberDuck(), strategy.GetNewRubberDuck())
-	fmt.Println("Rubber Duck...")
-	fmt.Println(rubberDuck.Fly())
-	fmt.Println(rubberDuck.Eat())
-	fmt.Println(rubberDuck.Move())
-	fmt.Println(rubberDuck.Quack())
-	fmt.Println()
+	if _, err := station.Attach(phone); err != nil {
+		fmt.Println(err)
+	}
+	if _, err := station.Attach(window); err != nil {
+		fmt.Println(err)
+	}
+	if err := station.SetTemperature("20"); err != nil {
+		fmt.Println(err)
+	}
+	if _, err := station.Attach(phone); err != nil {
+		fmt.Println(err)
+	}
+	if _, err := station.Detach(window); err != nil {
+		fmt.Println(err)
+	}
 
-	wildDuck := strategy.GetNewDuck(strategy.GetNewWildDuck(), strategy.GetNewWildDuck(), strategy.GetNewWildDuck(), strategy.GetNewWildDuck())
-	fmt.Println("Wild Duck...")
-	fmt.Println(wildDuck.Fly())
-	fmt.Println(wildDuck.Eat())
-	fmt.Println(wildDuck.Move())
-	fmt.Println(wildDuck.Quack())
+	if err := station.SetTemperature("20"); err != nil {
+		fmt.Println(err)
+	}
+
 }
