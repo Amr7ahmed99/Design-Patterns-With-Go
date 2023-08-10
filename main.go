@@ -3,34 +3,14 @@ package main
 import (
 	"fmt"
 
-	"github.com/amr-ahmed/Design-Patterns/patterns/observer/observers"
-	"github.com/amr-ahmed/Design-Patterns/patterns/observer/subjects"
+	addon "github.com/amr-ahmed/Design-Patterns/patterns/decorator/add_on"
+	"github.com/amr-ahmed/Design-Patterns/patterns/decorator/beverage"
 )
 
 func main() {
-
-	station := subjects.GenerateNewWeatherStation()
-	phone := observers.GetNewPhoneDisplay(station)
-	window := observers.GetNewWindowDisplay(station)
-
-	if _, err := station.Attach(phone); err != nil {
-		fmt.Println(err)
-	}
-	if _, err := station.Attach(window); err != nil {
-		fmt.Println(err)
-	}
-	if err := station.SetTemperature("20"); err != nil {
-		fmt.Println(err)
-	}
-	if _, err := station.Attach(phone); err != nil {
-		fmt.Println(err)
-	}
-	if _, err := station.Detach(window); err != nil {
-		fmt.Println(err)
-	}
-
-	if err := station.SetTemperature("20"); err != nil {
-		fmt.Println(err)
-	}
+	nescafeCaramel := addon.AddMilk(addon.AddCaramel(beverage.GetNewNescafe()))
+	fmt.Printf("Nescafe with Milk and Caramel: %d \n", nescafeCaramel.Cost())
+	espressoCaramel := addon.AddCaramel(beverage.GetNewEspresso())
+	fmt.Printf("Espresso wit Caramel: %d \n", espressoCaramel.Cost())
 
 }
